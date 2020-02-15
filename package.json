@@ -4,7 +4,7 @@
 	"description": "see build status",
 	"publisher": "supakornwarodom",
 	"repository": "https://github.com/jigkoxsee/vscode-droneci",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "engines": {
         "vscode": "^1.42.0"
     },
@@ -53,10 +53,6 @@
                 {
                     "id": "droneBuildFeed",
                     "name": "Build Feeds"
-                },
-                {
-                    "id": "droneRepo",
-                    "name": "Repositories"
                 }
             ]
 		},
