@@ -1,0 +1,102 @@
+{
+    "name": "droneci",
+    "displayName": "DroneCI",
+    "description": "see build status",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.42.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:droneBuildFeed",
+        "onCommand:extension.helloWorld"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.helloWorld",
+                "title": "Hello World"
+            },
+            {
+                "command": "droneBuildFeed.refreshEntry",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "droneBuildFeed.refreshEntry",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "droneci-explorer",
+                    "title": "DroneCI",
+                    "icon": "media/droneci.svg"
+                }
+            ]
+        },
+        "views": {
+            "droneci-explorer": [
+                {
+                    "id": "droneBuildFeed",
+                    "name": "Build Feeds"
+                },
+                {
+                    "id": "droneRepo",
+                    "name": "Repositories"
+                }
+            ]
+		},
+		"configuration": {
+            "type": "object",
+            "title": "DroneCI",
+            "properties": {
+                "droneci.server": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Drone's server url"
+				},
+                "droneci.token": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Drone's access token"
+				}
+			}
+		}
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn run compile",
+        "compile": "tsc -p ./",
+        "lint": "eslint src --ext ts",
+        "watch": "tsc -watch -p ./",
+        "pretest": "yarn run compile && yarn run lint",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.1",
+        "@types/mocha": "^7.0.1",
+        "@types/node": "^12.11.7",
+        "@types/vscode": "^1.42.0",
+        "@typescript-eslint/eslint-plugin": "^2.18.0",
+        "@typescript-eslint/parser": "^2.18.0",
+        "eslint": "^6.8.0",
+        "glob": "^7.1.6",
+        "mocha": "^7.0.1",
+        "typescript": "^3.7.5",
+        "vscode-test": "^1.3.0"
+    },
+    "dependencies": {
+        "axios": "^0.19.2"
+    }
+}
