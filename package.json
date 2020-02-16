@@ -1,10 +1,10 @@
 {
     "name": "droneci",
     "displayName": "DroneCI",
-	"description": "see build status",
-	"publisher": "supakornwarodom",
-	"repository": "https://github.com/jigkoxsee/vscode-droneci",
-    "version": "0.0.3",
+    "description": "see build status",
+    "publisher": "supakornwarodom",
+    "repository": "https://github.com/jigkoxsee/vscode-droneci",
+    "version": "0.0.4",
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -12,7 +12,10 @@
         "Other"
     ],
     "activationEvents": [
-        "onView:droneBuildFeed"
+        "onView:droneBuildFeed",
+        "onCommand:droneBuildFeed.refreshEntry",
+        "onCommand:droneBuildFeed.viewBuild",
+        "onCommand:droneBuildFeed.viewCommit"
     ],
     "main": "./out/extension.js",
     "icon": "images/logo.png",
@@ -20,11 +23,21 @@
         "commands": [
             {
                 "command": "droneBuildFeed.refreshEntry",
+                "category": "DroneCI",
                 "title": "Refresh",
-                "icon": {
-                    "light": "resources/light/refresh.svg",
-                    "dark": "resources/dark/refresh.svg"
-                }
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "droneBuildFeed.viewCommit",
+                "category": "DroneCI",
+                "title": "View commit",
+                "icon": "$(git-commit)"
+            },
+            {
+                "command": "droneBuildFeed.viewBuild",
+                "category": "DroneCI",
+                "title": "View build",
+                "icon": "$(link-external)"
             }
         ],
         "menus": {
@@ -32,6 +45,16 @@
                 {
                     "command": "droneBuildFeed.refreshEntry",
                     "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "droneBuildFeed.viewBuild",
+                    "group": "inline@99"
+                },
+                {
+                    "command": "droneBuildFeed.viewCommit",
+                    "group": "inline@1"
                 }
             ]
         },
@@ -51,8 +74,8 @@
                     "name": "Build Feeds"
                 }
             ]
-		},
-		"configuration": {
+        },
+        "configuration": {
             "type": "object",
             "title": "DroneCI",
             "properties": {
@@ -60,14 +83,14 @@
                     "type": "string",
                     "default": null,
                     "description": "Drone's server url"
-				},
+                },
                 "droneci.token": {
                     "type": "string",
                     "default": null,
                     "description": "Drone's access token"
-				}
-			}
-		}
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
@@ -88,11 +111,11 @@
         "eslint": "^6.8.0",
         "glob": "^7.1.6",
         "mocha": "^7.0.1",
-        "node-emoji": "^1.10.0",
         "typescript": "^3.7.5",
         "vscode-test": "^1.3.0"
     },
     "dependencies": {
-        "axios": "^0.19.2"
+        "axios": "^0.19.2",
+        "node-emoji": "^1.10.0"
     }
 }

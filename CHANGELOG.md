@@ -6,4 +6,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 0.0.3
 
+- Emojify build message
+- Add view commit and view build button
+
+## 0.0.3
+
 - Build feed explorer
