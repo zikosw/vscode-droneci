@@ -1,8 +1,12 @@
-# droneci README
+# DroneCI
 
 ## Features
 
-See your build status
+See your build feed
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jigkoxsee/vscode-droneci/master/images/buildfeed.png" alt="Build feed screenshot" />
+</p>
 
 ## Extension Settings
 
@@ -13,7 +17,7 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.3
 
 Can view build feeds
 
