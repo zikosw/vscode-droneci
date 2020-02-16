@@ -12,16 +12,11 @@
         "Other"
     ],
     "activationEvents": [
-        "onView:droneBuildFeed",
-        "onCommand:extension.helloWorld"
+        "onView:droneBuildFeed"
     ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [
-            {
-                "command": "extension.helloWorld",
-                "title": "Hello World"
-            },
             {
                 "command": "droneBuildFeed.refreshEntry",
                 "title": "Refresh",
