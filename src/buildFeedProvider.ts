@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
 import axios from 'axios';
+import { emojify } from 'node-emoji';
 
 export class BuildFeedProvider implements vscode.TreeDataProvider<Feed> {
 
@@ -66,7 +65,7 @@ class Build {
 }
 
 
-function EmoStatus(status: string): string {
+function EmojiStatus(status: string): string {
     switch (status) {
         case 'success':
             return '✅';
@@ -91,7 +90,7 @@ export class Feed extends vscode.TreeItem {
         // public readonly collapsibleState: vscode.TreeItemCollapsibleState,
         public readonly command?: vscode.Command
     ) {
-        super(`${EmoStatus(build.status)}${build.number} ${build.message}`);
+        super(`${EmojiStatus(build.status)}${build.number} ${emojify(build.message)}`);
     }
 
 
@@ -105,13 +104,9 @@ export class Feed extends vscode.TreeItem {
     }
 
     get iconPath(): any {
-        // let iconpath = path.join(__filename, '..', '..', 'resources', 'light', 'document.svg');
-        // console.log('icon', iconpath);
-        // return iconpath;
-        // console.log('icon', this.build.authorAvatar);
         return vscode.Uri.parse(this.build.author_avatar);
     }
 
-    contextValue = 'build';
+    contextValue = 'feed';
 
 }
