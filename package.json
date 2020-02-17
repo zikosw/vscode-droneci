@@ -1,10 +1,10 @@
 {
     "name": "droneci",
     "displayName": "DroneCI",
-    "description": "see build status",
+    "description": "View drone build feed",
     "publisher": "supakornwarodom",
     "repository": "https://github.com/jigkoxsee/vscode-droneci",
-    "version": "0.0.4",
+    "version": "0.0.6",
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -15,7 +15,8 @@
         "onView:droneBuildFeed",
         "onCommand:droneBuildFeed.refreshEntry",
         "onCommand:droneBuildFeed.viewBuild",
-        "onCommand:droneBuildFeed.viewCommit"
+        "onCommand:droneBuildFeed.viewCommit",
+        "onCommand:droneBuildFeed.viewLog"
     ],
     "main": "./out/extension.js",
     "icon": "images/logo.png",
@@ -30,13 +31,19 @@
             {
                 "command": "droneBuildFeed.viewCommit",
                 "category": "DroneCI",
-                "title": "View commit",
+                "title": "View Commit",
                 "icon": "$(git-commit)"
             },
             {
                 "command": "droneBuildFeed.viewBuild",
                 "category": "DroneCI",
-                "title": "View build",
+                "title": "View Build",
+                "icon": "$(link-external)"
+            },
+            {
+                "command": "droneBuildFeed.viewLog",
+                "category": "DroneCI",
+                "title": "View Log",
                 "icon": "$(link-external)"
             }
         ],
@@ -44,17 +51,25 @@
             "view/title": [
                 {
                     "command": "droneBuildFeed.refreshEntry",
+                    "when": "view == droneBuildFeed",
                     "group": "navigation"
                 }
             ],
             "view/item/context": [
                 {
                     "command": "droneBuildFeed.viewBuild",
+                    "when": "viewItem == feed",
                     "group": "inline@99"
                 },
                 {
                     "command": "droneBuildFeed.viewCommit",
+                    "when": "viewItem == feed",
                     "group": "inline@1"
+                },
+                {
+                    "command": "droneBuildFeed.viewLog",
+                    "when": "viewItem == step",
+                    "group": "inline@99"
                 }
             ]
         },

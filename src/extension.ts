@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { BuildFeedProvider, Feed } from './buildFeedProvider';
+import { BuildFeedProvider, Feed, Step } from './buildFeedProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -18,6 +18,9 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	vscode.commands.registerCommand('droneBuildFeed.viewCommit', (feed: Feed) => {
 		vscode.env.openExternal(vscode.Uri.parse(feed.build.link));
+	});
+	vscode.commands.registerCommand('droneBuildFeed.viewLog', (step: Step) => {
+		vscode.env.openExternal(vscode.Uri.parse(`${serverURL}/${step.link}`));
 	});
 
 	console.log('Congratulations, your extension "droneci" is now active!');
