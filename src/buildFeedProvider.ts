@@ -73,6 +73,8 @@ function EmojiStatus(status: string): string {
             return '❌';
         case 'running':
             return '🕐';
+        case 'killed':
+            return '🚫';
         default:
             return '❔';
     }
