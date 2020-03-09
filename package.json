@@ -4,7 +4,7 @@
     "description": "View drone build feed",
     "publisher": "supakornwarodom",
     "repository": "https://github.com/jigkoxsee/vscode-droneci",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -103,6 +103,11 @@
                     "type": "string",
                     "default": null,
                     "description": "Drone's access token"
+                },
+                "droneci.refresh_interval": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "Build feed refresh interval in minutes"
                 }
             }
         }

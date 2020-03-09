@@ -23,6 +23,13 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.env.openExternal(vscode.Uri.parse(`${serverURL}/${step.link}`));
 	});
 
+
+    let refreshInterval = vscode.workspace.getConfiguration('droneci').get<number>('refresh_interval');
+	setInterval(() => {
+		buildFeedProvider.refresh();
+		console.log("interval build.refresh");
+	}, (refreshInterval||5) * 60 * 1000);
+
 	console.log('Congratulations, your extension "droneci" is now active!');
 }
 
