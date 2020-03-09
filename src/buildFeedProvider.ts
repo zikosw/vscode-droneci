@@ -55,6 +55,9 @@ export class BuildFeedProvider implements vscode.TreeDataProvider<ViewNode> {
             axios.get<Build>(url, { headers: { Authorization: `Bearer ${this.droneToken}` } })
                 .then(resp => resp.data)
                 .then(build => {
+                    if (build.status === 'pending') {
+                        return resolve([]);
+                    }
                     let newData = build.stages.map(stg => {
                         return stg.steps.map(stp => new Step(feed.slug, build.number, stg.number, stp.number, stp.name, stp.status));
                     });
