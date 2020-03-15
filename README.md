@@ -6,6 +6,7 @@ View your build feed from VSCode.
 
  - Build feed in sidebar views
  - View build log status
+ - View step log in vscode
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/jigkoxsee/vscode-droneci/master/images/buildfeed.png" alt="Build feed screenshot" />
