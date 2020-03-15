@@ -121,7 +121,7 @@ export class Step extends ViewNode {
     }
 
     get logUri(): string {
-        return `api/repos/${this.slug}/builds/${this.build_number}/logs/${this.stage_number}/${this.number}`;
+        return `${this.slug}/builds/${this.build_number}/logs/${this.stage_number}/${this.number}`;
     }
     contextValue = 'step';
 }

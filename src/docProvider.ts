@@ -11,7 +11,7 @@ export  class LogProvider implements vscode.TextDocumentContentProvider {
 	provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<string>{
 
         let cfg = getConfig();
-        let url = `${cfg.server}/${uri.path}`;
+        let url = `${cfg.server}/api/repos/${uri.path}`;
 
         return new Promise((resolve, reject) => {
             axios.get<StepLog[]>(url, { headers: { Authorization: `Bearer ${cfg.token}` } })
