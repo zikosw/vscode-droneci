@@ -108,8 +108,16 @@ export class Step extends ViewNode {
         super(`${EmojiStatus(status)} ${name}`, vscode.TreeItemCollapsibleState.None);
     }
 
+    get command() {
+        return {
+            command: 'droneBuildFeed.viewLog',
+            title: '',
+            arguments: [this]
+        };
+    }
+
     get description(): string {
-        return `${this.name}`;
+        return `${this.status}`;
     }
 
     get tooltip(): string {
