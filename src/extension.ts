@@ -2,14 +2,53 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { BuildFeedProvider } from './buildFeedProvider';
-import { Feed, Step } from './droneci';
+import { Feed, Step, StepLog } from './droneci';
 import { LogProvider } from './docProvider';
+import fetch from 'node-fetch';
+
+
+function processStream(data: string): string[]| null {
+	// data: eof
+	if (data === 'data: eof') {
+		return null;
+	}
+	let splitted = data.split('\n');
+
+	let contents = splitted.filter(r=>r.length>0).map(row=> row.trim());
+	console.log('contents', contents);
+	return contents;
+	// return JSON.parse(content);
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
 	const serverURL = vscode.workspace.getConfiguration('droneci').get<string>('server');
+	const token = vscode.workspace.getConfiguration('droneci').get<string>('token');
+
+	let url = 'https://ci.satanghq.com/api/stream/satangcorp/satang-api/1936/1/5';
+	fetch(url,
+		{ headers: { Authorization: `Bearer ${token}` } })
+		.then((response) => {
+			console.log('resp',url);
+			return response.body;
+		})
+		.then(body => {
+			body.on('data', (chunk) => {
+				console.log(`Received ${chunk.length} bytes of data.`);
+				console.log('data::', chunk.toString());
+				console.log('processes', processStream(chunk.toString()));
+			});
+			body.on('end', () => {
+				console.log('There will be no more data.');
+			});
+
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+
 
 	const buildFeedProvider = new BuildFeedProvider();
 	vscode.window.registerTreeDataProvider('droneBuildFeed', buildFeedProvider);
