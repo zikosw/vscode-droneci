@@ -32,7 +32,7 @@ export class BuildFeedProvider implements vscode.TreeDataProvider<ViewNode> {
     private GetSteps(feed: Feed): Promise<ViewNode[]> {
         return new Promise((resolve, reject) => {
             let url = `${this.droneCfg.server}${feed.uri}`;
-            axios.get<Build>(url, { headers: { Authorization: `Bearer ${this.droneCfg.token}` } })
+            axios.get<Build>(url, this.droneCfg.headers)
                 .then(resp => resp.data)
                 .then(build => {
                     if (build.status === 'pending') {
@@ -52,18 +52,22 @@ export class BuildFeedProvider implements vscode.TreeDataProvider<ViewNode> {
 
     private GetFeed(): Promise<ViewNode[]> {
         return new Promise((resolve, reject) => {
-            axios.get<Feed[]>(`${this.droneCfg.server}/api/user/builds`, { headers: { Authorization: `Bearer ${this.droneCfg.token}` } })
-                .then(function (response) {
-                    return response.data;
-                })
+            axios.get<Feed[]>(`${this.droneCfg.server}/api/user/builds`, this.droneCfg.headers)
+                .then(resp => resp.data)
                 .then(data => {
                     let newData: Feed[] = data.map(f => {
                         return new Feed(f.build, f.name, f.slug, f.uid, f.version, vscode.TreeItemCollapsibleState.Collapsed);
                     });
+
+                    if (newData.length === 0) {
+                        vscode.window.showInformationMessage("Build feed is empty");
+                    }
+
                     return resolve(newData);
                 })
-                .catch(function (error) {
+                .catch(error => {
                     // handle error
+                    vscode.window.showErrorMessage("Unable to fetch build feed: " + error);
                     reject(error);
                 });
         });

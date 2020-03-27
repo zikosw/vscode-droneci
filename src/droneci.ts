@@ -1,19 +1,26 @@
 import * as vscode from 'vscode';
 import { emojify } from 'node-emoji';
 import { ViewNode } from './viewnode';
+import { AxiosRequestConfig } from 'axios';
 
 export class APIConfig {
     constructor(
         public readonly server: string,
         public readonly token: string
     ) { }
+
+    get headers(): AxiosRequestConfig {
+        return { headers: { Authorization: `Bearer ${this.token}` } };
+    }
 }
 
 export const getConfig = () => {
-    let server = vscode.workspace.getConfiguration('droneci').get<string>('server','');
-    let token = vscode.workspace.getConfiguration('droneci').get<string>('token','');
+    let server = vscode.workspace.getConfiguration('droneci').get<string>('server', '');
+    let token = vscode.workspace.getConfiguration('droneci').get<string>('token', '');
+    server = server.match('/$') ? server.substr(0, server.length - 1) : server; // remove trailing slash
+    server = server.match('^(http)s?\:\/\/') ? server : 'https://' + server; // auto add https prefix
     return new APIConfig(server, token);
- };
+};
 
 function EmojiStatus(status: string): string {
     switch (status) {
@@ -63,7 +70,10 @@ export class Feed extends ViewNode {
         return `/api/repos/${this.slug}/builds/${this.build.number}`;
     }
 
-    contextValue = 'feed';
+    // contextValue = 'feed';
+    get contextValue(): string {
+        return 'feed' + this.build.status;
+    }
 
 }
 
@@ -136,13 +146,13 @@ export class Step extends ViewNode {
 
 export class StepLog {
     constructor(
-    public readonly pos: Number,
-    public readonly out: string,
-    public readonly time: Number
+        public readonly pos: Number,
+        public readonly out: string,
+        public readonly time: Number
     ) {
 
     }
-    toString(): string{
+    toString(): string {
         return this.out;
     }
 }

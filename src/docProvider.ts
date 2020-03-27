@@ -3,18 +3,18 @@ import axios from 'axios';
 import { getConfig, StepLog } from './droneci';
 
 
-export  class LogProvider implements vscode.TextDocumentContentProvider {
+export class LogProvider implements vscode.TextDocumentContentProvider {
     // emitter and its event
     onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
     onDidChange = this.onDidChangeEmitter.event;
 
-	provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<string>{
+    provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<string> {
 
         let cfg = getConfig();
         let url = `${cfg.server}/api/repos/${uri.path}`;
 
         return new Promise((resolve, reject) => {
-            axios.get<StepLog[]>(url, { headers: { Authorization: `Bearer ${cfg.token}` } })
+            axios.get<StepLog[]>(url, cfg.headers)
                 .then(resp => resp.data)
                 .then(data => {
                     let logs = data.map(d => d.out).join("");

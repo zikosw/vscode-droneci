@@ -4,7 +4,7 @@
     "description": "View drone build feed",
     "publisher": "supakornwarodom",
     "repository": "https://github.com/jigkoxsee/vscode-droneci",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -17,7 +17,9 @@
         "onCommand:droneBuildFeed.viewBuild",
         "onCommand:droneBuildFeed.viewCommit",
         "onCommand:droneBuildFeed.viewLog",
-        "onCommand:droneBuildFeed.openLog"
+        "onCommand:droneBuildFeed.openLog",
+        "onCommand:droneBuildFeed.killBuild",
+        "onCommand:droneBuildFeed.restartBuild"
     ],
     "main": "./out/extension.js",
     "icon": "images/logo.png",
@@ -52,6 +54,18 @@
                 "category": "DroneCI",
                 "title": "View Log",
                 "icon": "$(file)"
+            },
+            {
+                "command": "droneBuildFeed.killBuild",
+                "category": "DroneCI",
+                "title": "Kill",
+                "icon": "$(chrome-close)"
+            },
+            {
+                "command": "droneBuildFeed.restartBuild",
+                "category": "DroneCI",
+                "title": "Restart",
+                "icon": "$(debug-restart)"
             }
         ],
         "menus": {
@@ -64,14 +78,24 @@
             ],
             "view/item/context": [
                 {
-                    "command": "droneBuildFeed.viewBuild",
-                    "when": "viewItem == feed",
-                    "group": "inline@99"
+                    "command": "droneBuildFeed.restartBuild",
+                    "when": "viewItem == feedsuccess || viewItem == feedfailure || viewItem == feedkilled",
+                    "group": "inline@1"
+                },
+                {
+                    "command": "droneBuildFeed.killBuild",
+                    "when": "viewItem == feedrunning",
+                    "group": "inline@2"
                 },
                 {
                     "command": "droneBuildFeed.viewCommit",
-                    "when": "viewItem == feed",
-                    "group": "inline@1"
+                    "when": "viewItem == feedrunning || viewItem == feedsuccess || viewItem == feedfailure || viewItem == feedkilled",
+                    "group": "inline@98"
+                },
+                {
+                    "command": "droneBuildFeed.viewBuild",
+                    "when": "viewItem == feedrunning || viewItem == feedsuccess || viewItem == feedfailure || viewItem == feedkilled",
+                    "group": "inline@99"
                 },
                 {
                     "command": "droneBuildFeed.openLog",

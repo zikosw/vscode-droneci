@@ -4,6 +4,15 @@ All notable changes to the "droneci" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 0.0.10
+
+- Add restart build and kill build button
+- Automatic add https prefix and remove trailing slash
+
+## 0.0.9
+
+- Add view log command on step
+
 ## 0.0.8
 
 - View build step log in vscode
