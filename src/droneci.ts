@@ -15,10 +15,13 @@ export class APIConfig {
 }
 
 export const getConfig = () => {
-    let server = vscode.workspace.getConfiguration('droneci').get<string>('server', process.env['DRONE_SERVER']) || '';
-    let token = vscode.workspace.getConfiguration('droneci').get<string>('token', process.env['DRONE_TOKEN']) || '';
-    server = server.match('/$') ? server.substr(0, server.length - 1) : server; // remove trailing slash
-    server = server.match('^(http)s?\:\/\/') ? server : 'https://' + server; // auto add https prefix
+    // Use drone configs from ENV if exist otherwise use vscode's configuration
+    let server = process.env['DRONE_SERVER'] || vscode.workspace.getConfiguration('droneci').get<string>('server', '');
+    let token = process.env['DRONE_TOKEN'] || vscode.workspace.getConfiguration('droneci').get<string>('token', '');
+    // remove trailing slash
+    server = server.match('/$') ? server.substr(0, server.length - 1) : server;
+    // auto add https prefix
+    server = server.match('^(http)s?\:\/\/') ? server : 'https://' + server;
     return new APIConfig(server, token);
 };
 

@@ -4,6 +4,10 @@ All notable changes to the "droneci" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 0.0.11
+
+- Use drone configs from ENV if exist (DRONE_SERVER, DRONE_TOKEN).
+
 ## 0.0.10
 
 - Add restart build and kill build button
